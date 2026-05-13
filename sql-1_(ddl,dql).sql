@@ -134,3 +134,100 @@ select date_add(curdate(),interval 2 month) as yesterday;
 
 select date_add(curdate(),interval 2 year) as yesterday;
 select date_add(curdate(),interval -2 year) as yesterday;
+
+
+
+
+
+-- 13/5/2026
+-- sql constraints
+create table employee(
+emp_id int primary key auto_increment,
+name varchar(50) not null,email varchar(50) unique,
+job_desc varchar(50) default "Unassigned",
+salary int check (salary > 25000),
+age int check (age >= 18)
+);
+
+describe employee;
+-- primary key auto_increment
+insert into employee(name,email,job_desc,salary,age) values ("Bosha","bs@gmail.com","Manager",800000,22);
+
+-- not null
+insert into employee(name,email,job_desc,salary,age) values (null,"bss@gmail.com","Manager",800000,22);
+insert into employee(name,email,job_desc,salary,age) values ("Kiruthika","bss@gmail.com","Manager",800000,22);
+
+-- unique
+insert into employee(name,email,job_desc,salary,age) values ("Lisa","ls@gmail.com","Developer",750000,21);
+
+-- default
+insert into employee(name,email,salary,age) values ("Praveen","ps@gmail.com",750000,21);
+
+-- check 
+insert into employee(name,email,job_desc,salary,age) values ("Gnanambal","gn@gmail.com","Hr",65000,21);
+insert into employee(name,email,job_desc,salary,age) values ("Kumar","kr@gmail.com","Developer",55000,24);
+
+-- forign key
+CREATE TABLE Branch (
+    branch_id INT PRIMARY KEY AUTO_INCREMENT,
+    br_name VARCHAR(40) NOT NULL,
+    address VARCHAR(40)
+);
+
+insert into branch(branch_id,br_name,address) values(105,"Livewire NBS","Salem");
+insert into branch(br_name,address) values("Livewire Kovai","Kovai"),
+("Livewire Chennai","Ch"),("Livewire Bn","Bn");
+
+CREATE TABLE Emp (
+    emp_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(40) NOT NULL,
+    job_desc VARCHAR(40),
+    salary INT,
+    branch_id INT,
+    CONSTRAINT fk_branchID
+    FOREIGN KEY (branch_id)
+    REFERENCES Branch(branch_id)
+);
+
+insert into emp(name,job_desc,salary,branch_id) values ("lisa","Hr",850000,105);
+insert into emp(name,job_desc,salary,branch_id) values ("kiruthika","Developer",950000,108);
+
+
+-- index
+CREATE INDEX idx_name ON emp(name);
+
+select * from emp where name = "lisa";
+
+
+-- alter constraint query
+
+alter table emp modify column name varchar(50);
+insert into emp(name,job_desc,salary,branch_id) values (null,"Hr",850000,105);
+
+-- default
+ALTER TABLE Emp ALTER job_desc SET DEFAULT 'Unassigned';
+insert into emp(name,salary,branch_id) values ("Praveen",850000,105);
+ALTER TABLE Emp ALTER job_desc DROP DEFAULT;
+
+-- Add CHECK:
+ALTER TABLE Emp ADD CONSTRAINT check_salary CHECK (salary > 10000);
+insert into emp(name,job_desc,salary,branch_id) values ("Kumar","Hr",5000,105);
+
+-- Drop CHECK:
+ALTER TABLE Emp DROP CHECK check_salary;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
