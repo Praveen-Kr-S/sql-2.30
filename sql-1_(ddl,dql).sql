@@ -219,6 +219,66 @@ ALTER TABLE Emp DROP CHECK check_salary;
 
 
 
+-- 15/05/2026
+-- SQL joins
+
+create database school_system;
+use school_system;
+
+create table student_data(std_id int primary key auto_increment, std_name varchar(50),course_id int);
+create table course_data(course_id int primary key, course_name varchar(50));
+
+
+insert into student_data(std_name,course_id) values("Kumar",227),("Praveen",225),
+("lisa",228),("Bosha",223),
+("sabarish",221),("kiruthika",230);
+
+insert into student_data(std_name,course_id) values("Gnanambal",228),("Keerthana",234);
+
+insert into course_data values(223,"Python"),
+(230,"Data Analytics"),(221,"Java"),(228,"React.js");
+
+
+-- inner join
+-- returns only matching datas in both a tables
+select std_id,std_name,course_data.course_id,course_name from student_data inner join course_data
+on student_data.course_id = course_data.course_id;
+
+-- left join
+select std_id,std_name,course_data.course_id,student_data.course_id from 
+student_data left join course_data on student_data.course_id = course_data.course_id;
+
+-- right join
+select course_name,course_data.course_id,student_data.std_name from 
+student_data right join course_data on student_data.course_id = course_data.course_id;
+
+-- full join using union
+select std_id,std_name,course_data.course_name,course_data.course_id from student_data left join course_data
+on student_data.course_id = course_data.course_id
+union
+select std_id,std_name,course_data.course_name,course_data.course_id from 
+student_data right join course_data on student_data.course_id = course_data.course_id;
+
+select * from student_data left join course_data
+on student_data.course_id = course_data.course_id
+union
+select * from 
+student_data right join course_data on student_data.course_id = course_data.course_id;
+
+
+-- cross join
+create table institute(brand_id int, branch_name varchar(50));
+create table course(course_id int, course_name varchar(50));
+
+insert into institute values(11,"Livewire Salem"),(12,"Livewire Kovai"),(13,"Livewire Chnnai");
+insert into course values(112,"Python"),(123,"Java"),(133,"React.Js"),(134,"Django");
+
+
+select * from institute cross join course;
+select brand_id,branch_name,course_name from institute cross join course;
+select brand_id,branch_name,course_name from institute,course;
+
+
 
 
 
