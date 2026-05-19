@@ -280,14 +280,131 @@ select brand_id,branch_name,course_name from institute,course;
 
 
 
+-- 19/05/2026
+-- view in sql
+create database gnanambal_tech;
+use gnanambal_tech;
+
+CREATE TABLE student_data(
+    std_id INT,
+    std_name VARCHAR(50),
+    course_id INT
+);
+
+INSERT INTO student_data VALUES
+(1,"Kumar",227),
+(2,"Ravi",228),
+(3,"Priya",227);
+
+-- view
+create view std_view as select std_id,std_name from student_data;
+select * from std_view;
+select course_id from std_view;
+
+-- view with condition
+create view sql_std as select * from student_data where course_id = 227;
+select * from sql_std;
+select std_name,course_id from sql_std;
+
+-- update view
+create or replace view std_view as select * from student_data;
+select course_id from std_view;
+select * from std_view;
+
+-- remove view
+DROP VIEW std_view;
+
+-- subquery
+select std_id,std_name from student_data where course_id = (select max(course_id) from student_data);
+select * from student_data where course_id = (select max(course_id) from student_data);
+-- select * from student_data where course_id = 228;
 
 
 
 
+-- sub-query and their types
+
+CREATE DATABASE Alpha_school;
+CREATE TABLE student_data(
+    std_id INT,
+    std_name VARCHAR(50),
+    marks INT
+);
+
+INSERT INTO student_data VALUES
+(1,'Kumar',85),
+(2,'Ravi',60),
+(3,'Priya',95),
+(4,'Arun',70),
+(5,'Divya',88),
+(6,'Suresh',76),
+(7,'Meena',91),
+(8,'Vijay',67),
+(9,'Karthik',82),
+(10,'Nisha',73),
+(11,'Lokesh',58),
+(12,'Anitha',99),
+(13,'Hari',80),
+(14,'Deepa',65),
+(15,'Sanjay',87);
 
 
+-- 1.find students above avg marks
+-- conditional operator --> =,!=,>,<,<=,>=
+select avg(marks) from student_data;
+select * from student_data where marks > (select avg(marks) from student_data);
+
+-- 2.select highest mark student
+select * from student_data where marks = (select max(marks) from student_data);
+
+-- 3.select lowest mark student
+select * from student_data where marks = (select min(marks) from student_data);
 
 
+-- types of sub-query
+CREATE TABLE student_info(
+    std_id INT,
+    std_name VARCHAR(50),
+    marks INT,
+    course_id INT
+);
+
+INSERT INTO student_info VALUES
+(1,'Kumar',85,101),
+(2,'Ravi',60,102),
+(3,'Priya',95,101),
+(4,'Arun',70,103),
+(5,'Divya',88,101),
+(6,'Suresh',76,102),
+(7,'Meena',91,101),
+(8,'Vijay',67,103),
+(9,'Karthik',82,102),
+(10,'Nisha',73,101),
+(11,'Lokesh',58,103),
+(12,'Anitha',99,101),
+(13,'Hari',80,102),
+(14,'Deepa',65,103),
+(15,'Sanjay',87,101);
 
 
+CREATE TABLE course_data(
+    course_id INT,
+    course_name VARCHAR(50)
+);
+
+INSERT INTO course_data VALUES
+(101,'Python'),
+(102,'Java'),
+(103,'SQL');
+
+-- multi - row sub query
+select * from student_info where course_id in 
+(select course_id from course_data where course_name = "Java");
+
+-- nested sub-query
+SELECT * FROM student_info WHERE marks > 
+( 
+SELECT AVG(marks) FROM student_info WHERE marks >
+( SELECT MIN(marks) FROM student_data WHERE marks > 70)
+);
 
